@@ -22,7 +22,7 @@ def extract_restaurant_data(api_response, number_of_restaurants):
     return restaurant_obj
 
 
-def display_data(restaurants):
+def display_data(restaurant_list):
     console = Console()
     table = Table(title="Restaurants")
 
@@ -31,14 +31,19 @@ def display_data(restaurants):
     table.add_column("Rating", justify="right")
     table.add_column("Cuisines")
 
-    for restaurant in restaurants:
-        table.add_row(restaurant.name, restaurant.address, str(restaurant.rating), ", ".join(restaurant.cuisine))
+    for restaurant in restaurant_list:
+        if restaurant.rating != 0:
+            table.add_row(restaurant.name, restaurant.address, str(restaurant.rating), ", ".join(restaurant.cuisine))
+        else:
+            table.add_row(restaurant.name, restaurant.address, "The restaurant does not have any reviews yet",
+                          ", ".join(restaurant.cuisine))
+
     console.print(table)
 
 
 if __name__ == '__main__':
     postcode = input("Type the postcode for the area where you would like to find information about restaurants. "
-                     "Press enter to submit your answer."
+                     "Press enter to submit your answer. "
                      "Only UK based postcodes are supported currently! ")
 
     url = f"https://uk.api.just-eat.io/discovery/uk/restaurants/enriched/bypostcode/{postcode}"
@@ -49,6 +54,13 @@ if __name__ == '__main__':
     }
 
     response = requests.get(url, headers=headers)
-    json_response = json.loads(json.dumps(response.json()))
-    display_data(extract_restaurant_data(json_response, 10))
+    if response.status_code != 200:
+        raise Exception(f"Failed to fetch data: {response.status_code}")
 
+    json_response = json.loads(json.dumps(response.json()))
+    restaurants_json = json_response.get("restaurants", [])
+    if not restaurants_json:
+        print("No restaurants found for this postcode or the postcode is not UK based.")
+        exit(0)
+    else:
+        display_data(extract_restaurant_data(json_response, 10))
