@@ -1,10 +1,11 @@
 # Takeaway Early Careers Assignment
 
 ## How to run this solution
-1. Pull the project in the desired folder.
-2. Since my solution is developed in Python, before running you need to install some packages. Run the command ```pip install requests rich ``` and the packages needed for running main will be downloaded. 
-3. Navigate to the folder where the solution is downloaded.
-4. Run the command ```python main.py```.
+1. Prerequisites: you need to install Python first. 
+2. Pull the project in the desired folder.
+3. Since my solution is developed in Python, before running you need to install some packages. Run the command ```pip install requests rich ``` and the packages needed for running main will be downloaded. 
+4. Navigate to the folder where the solution is downloaded.
+5. Run the command ```python main.py```.
 
 ## Implementation documentation
 I first started with inspecting the API call's content and observe what the JSON contained. For clarity, I downloaded the JSON file locally and used a code editor to format it. 
