@@ -16,8 +16,7 @@ def extract_restaurant_data(api_response, number_of_restaurants):
         for cuisine in restaurant_cuisines:
             cuisines.append(cuisine["name"])
         restaurant_address = restaurant["address"]
-        full_address = f"{restaurant_address["firstLine"] + ", " + restaurant_address["postalCode"] + ", "
-                          + restaurant_address["city"]}"
+        full_address = f"{restaurant_address['firstLine']}, {restaurant_address['postalCode']}, {restaurant_address['city']}"
         restaurant_obj.append(Restaurant(restaurant_name, full_address, cuisines, restaurant_rating))
     return restaurant_obj
 
